@@ -234,14 +234,17 @@ export class MatchingService {
     let totalScore = 0;
 
     // Stage fit
-    const stageFit = investor.stagePreferences.includes(startup.stage) ? 1 : 0.3;
+    const investorStages = JSON.parse(investor.stagePreferences || '[]');
+    const stageFit = investorStages.includes(startup.stage) ? 1 : 0.3;
     totalScore += stageFit * weights.stage;
 
     // Sector fit
-    const sectorOverlap = startup.sectors.filter(s => 
-      investor.sectorFocus.some(f => f.toLowerCase() === s.toLowerCase())
+    const startupSectors = JSON.parse(startup.sectors || '[]');
+    const investorSectors = JSON.parse(investor.sectorFocus || '[]');
+    const sectorOverlap = startupSectors.filter(s => 
+      investorSectors.some(f => f.toLowerCase() === s.toLowerCase())
     ).length;
-    const sectorFit = Math.min(sectorOverlap / Math.max(startup.sectors.length, 1), 1);
+    const sectorFit = Math.min(sectorOverlap / Math.max(startupSectors.length, 1), 1);
     totalScore += sectorFit * weights.sector;
 
     // Check size / valuation fit
@@ -274,8 +277,10 @@ export class MatchingService {
     totalScore += kpisFit * weights.kpis;
 
     // Value-add alignment (simplified)
-    const valueAddFit = startup.valueAddNeeds.filter(need =>
-      investor.valueAddOffered?.includes(need)
+    const startupNeeds = JSON.parse(startup.valueAddNeeds || '[]');
+    const investorOffered = JSON.parse(investor.valueAddOffered || '[]');
+    const valueAddFit = startupNeeds.filter(need =>
+      investorOffered.includes(need)
     ).length > 0 ? 1 : 0.5;
     totalScore += valueAddFit * weights.valueAdd;
 
@@ -341,7 +346,7 @@ export class MatchingService {
         type: 'startup',
         name: profile?.name || 'Unnamed Startup',
         stage: profile?.stage,
-        sectors: profile?.sectors || [],
+        sectors: JSON.parse(profile?.sectors || '[]'),
         valuation: profile?.valuation,
         arr: profile?.arr,
         growth: profile?.growthYoyPct,
@@ -354,10 +359,10 @@ export class MatchingService {
         type: 'investor',
         name: profile?.name || 'Unnamed Investor',
         investorType: profile?.type,
-        sectorFocus: profile?.sectorFocus || [],
+        sectorFocus: JSON.parse(profile?.sectorFocus || '[]'),
         checkSizeMin: profile?.checkSizeMin,
         checkSizeMax: profile?.checkSizeMax,
-        stagePreferences: profile?.stagePreferences || [],
+        stagePreferences: JSON.parse(profile?.stagePreferences || '[]'),
         description: profile?.description,
         compatibilityScore: candidate.compatibilityScore,
       };
@@ -373,7 +378,7 @@ export class MatchingService {
         id: match.startup.id,
         name: match.startup.startupProfile?.name || 'Unnamed Startup',
         stage: match.startup.startupProfile?.stage,
-        sectors: match.startup.startupProfile?.sectors || [],
+        sectors: JSON.parse(match.startup.startupProfile?.sectors || '[]'),
         valuation: match.startup.startupProfile?.valuation,
         arr: match.startup.startupProfile?.arr,
       },
@@ -381,7 +386,7 @@ export class MatchingService {
         id: match.investor.id,
         name: match.investor.investorProfile?.name || 'Unnamed Investor',
         type: match.investor.investorProfile?.type,
-        sectorFocus: match.investor.investorProfile?.sectorFocus || [],
+        sectorFocus: JSON.parse(match.investor.investorProfile?.sectorFocus || '[]'),
         checkSizeMin: match.investor.investorProfile?.checkSizeMin,
         checkSizeMax: match.investor.investorProfile?.checkSizeMax,
       },

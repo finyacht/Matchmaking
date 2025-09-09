@@ -1,0 +1,30 @@
+{
+  "name": "Matchmaking Platform",
+  "description": "AI-powered investor-startup matchmaking platform",
+  "repository": "https://github.com/finyacht/Matchmaking",
+  "logo": "https://img.icons8.com/color/96/000000/handshake.png",
+  "keywords": ["nodejs", "startup", "investor", "matching", "api"],
+  "image": "heroku/nodejs",
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "env": {
+    "NODE_ENV": {
+      "description": "Production environment",
+      "value": "production"
+    },
+    "PORT": {
+      "description": "Port for the application",
+      "value": "3000"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "stack": "heroku-22"
+}

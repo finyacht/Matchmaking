@@ -54,11 +54,18 @@ export class UsersService {
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '');
 
-    const profile = this.startupProfileRepository.create({
+    // Convert arrays to JSON strings for SQLite compatibility
+    const profileData = {
       ...profileDto,
+      sectors: JSON.stringify(profileDto.sectors),
+      locations: JSON.stringify(profileDto.locations || []),
+      valueAddNeeds: JSON.stringify(profileDto.valueAddNeeds || []),
+      nonNegotiables: JSON.stringify(profileDto.nonNegotiables || []),
       slug,
       userId,
-    });
+    };
+
+    const profile = this.startupProfileRepository.create(profileData);
 
     return this.startupProfileRepository.save(profile);
   }
@@ -72,10 +79,17 @@ export class UsersService {
       throw new NotFoundException('Investor user not found');
     }
 
-    const profile = this.investorProfileRepository.create({
+    // Convert arrays to JSON strings for SQLite compatibility
+    const profileData = {
       ...profileDto,
+      stagePreferences: JSON.stringify(profileDto.stagePreferences),
+      sectorFocus: JSON.stringify(profileDto.sectorFocus),
+      geoFocus: JSON.stringify(profileDto.geoFocus),
+      valueAddOffered: JSON.stringify(profileDto.valueAddOffered || []),
       userId,
-    });
+    };
+
+    const profile = this.investorProfileRepository.create(profileData);
 
     return this.investorProfileRepository.save(profile);
   }

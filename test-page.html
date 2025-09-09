@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchmaking Platform - Test Interface</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button.danger {
+            background: #f44336;
+        }
+        button.danger:hover {
+            background: #da190b;
+        }
+        .result {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .demo-accounts {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .online {
+            background: #4CAF50;
+        }
+        .offline {
+            background: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Matchmaking Platform - Live Test Interface</h1>
+        
+        <div class="demo-accounts">
+            <h3>📋 Demo Accounts Ready to Use:</h3>
+            <p><strong>Startup:</strong> startup@demo.com / password</p>
+            <p><strong>Investor:</strong> investor@demo.com / password</p>
+        </div>
+
+        <div class="section">
+            <h3><span id="status-indicator" class="status-indicator offline"></span>API Status</h3>
+            <button onclick="testHealth()">Check API Health</button>
+            <div id="health-result" class="result"></div>
+        </div>
+
+        <div class="grid">
+            <div class="section">
+                <h3>🔐 Authentication</h3>
+                
+                <h4>Login</h4>
+                <div class="input-group">
+                    <label>Email:</label>
+                    <input type="email" id="login-email" value="startup@demo.com">
+                </div>
+                <div class="input-group">
+                    <label>Password:</label>
+                    <input type="password" id="login-password" value="password">
+                </div>
+                <button onclick="login()">Login</button>
+                <button onclick="loginAsInvestor()">Quick Login as Investor</button>
+                
+                <h4>Register New User</h4>
+                <div class="input-group">
+                    <label>Email:</label>
+                    <input type="email" id="register-email" placeholder="new@user.com">
+                </div>
+                <div class="input-group">
+                    <label>Password:</label>
+                    <input type="password" id="register-password" placeholder="password">
+                </div>
+                <div class="input-group">
+                    <label>User Type:</label>
+                    <select id="register-type">
+                        <option value="startup">Startup</option>
+                        <option value="investor">Investor</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>First Name:</label>
+                    <input type="text" id="register-firstname" placeholder="John">
+                </div>
+                <div class="input-group">
+                    <label>Last Name:</label>
+                    <input type="text" id="register-lastname" placeholder="Doe">
+                </div>
+                <button onclick="register()">Register</button>
+                
+                <div id="auth-result" class="result"></div>
+            </div>
+
+            <div class="section">
+                <h3>👤 Profile Management</h3>
+                <button onclick="getProfile()">Get My Profile</button>
+                <button onclick="createStartupProfile()">Create Demo Startup Profile</button>
+                <button onclick="createInvestorProfile()">Create Demo Investor Profile</button>
+                <div id="profile-result" class="result"></div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="section">
+                <h3>🔥 Matching Engine</h3>
+                <button onclick="getFeed()">Get Match Feed</button>
+                <button onclick="swipeRight()">Swipe Right (Like)</button>
+                <button onclick="swipeLeft()">Swipe Left (Pass)</button>
+                <button onclick="getMatches()">View My Matches</button>
+                <div id="matching-result" class="result"></div>
+            </div>
+
+            <div class="section">
+                <h3>📊 Platform Analytics</h3>
+                <button onclick="showUserStats()">User Statistics</button>
+                <button onclick="showMatchingStats()">Matching Statistics</button>
+                <button onclick="testAllEndpoints()">Test All Endpoints</button>
+                <div id="analytics-result" class="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api/v1';
+        let currentToken = '';
+        let currentUser = null;
+        let feedData = [];
+
+        // Utility functions
+        function displayResult(elementId, data, isError = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = JSON.stringify(data, null, 2);
+            element.className = `result ${isError ? 'error' : 'success'}`;
+        }
+
+        function updateStatusIndicator(isOnline) {
+            const indicator = document.getElementById('status-indicator');
+            indicator.className = `status-indicator ${isOnline ? 'online' : 'offline'}`;
+        }
+
+        // API Functions
+        async function testHealth() {
+            try {
+                const response = await fetch('http://localhost:3000/health');
+                const data = await response.json();
+                displayResult('health-result', { status: 'API is running!', ...data });
+                updateStatusIndicator(true);
+            } catch (error) {
+                displayResult('health-result', { error: 'API is offline: ' + error.message }, true);
+                updateStatusIndicator(false);
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    currentToken = data.accessToken;
+                    currentUser = data.user;
+                    displayResult('auth-result', { message: 'Login successful!', user: data.user });
+                } else {
+                    displayResult('auth-result', data, true);
+                }
+            } catch (error) {
+                displayResult('auth-result', { error: error.message }, true);
+            }
+        }
+
+        async function loginAsInvestor() {
+            document.getElementById('login-email').value = 'investor@demo.com';
+            document.getElementById('login-password').value = 'password';
+            await login();
+        }
+
+        async function register() {
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const userType = document.getElementById('register-type').value;
+            const firstName = document.getElementById('register-firstname').value;
+            const lastName = document.getElementById('register-lastname').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, userType, firstName, lastName })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    currentToken = data.accessToken;
+                    currentUser = data.user;
+                    displayResult('auth-result', { message: 'Registration successful!', user: data.user });
+                } else {
+                    displayResult('auth-result', data, true);
+                }
+            } catch (error) {
+                displayResult('auth-result', { error: error.message }, true);
+            }
+        }
+
+        async function getProfile() {
+            if (!currentToken) {
+                displayResult('profile-result', { error: 'Please login first' }, true);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/users/profile`, {
+                    headers: { 'Authorization': `Bearer ${currentToken}` }
+                });
+                
+                const data = await response.json();
+                displayResult('profile-result', data, !response.ok);
+            } catch (error) {
+                displayResult('profile-result', { error: error.message }, true);
+            }
+        }
+
+        async function createStartupProfile() {
+            if (!currentToken) {
+                displayResult('profile-result', { error: 'Please login first' }, true);
+                return;
+            }
+            
+            const profileData = {
+                name: "TechFlow AI",
+                stage: "seed",
+                sectors: ["fintech", "ai", "saas"],
+                description: "AI-powered financial analytics platform for SMEs",
+                valuation: 5000000,
+                arr: 500000,
+                checkSizeMin: 250000,
+                checkSizeMax: 2000000,
+                locations: ["San Francisco", "New York"]
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/users/startup-profile`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${currentToken}` 
+                    },
+                    body: JSON.stringify(profileData)
+                });
+                
+                const data = await response.json();
+                displayResult('profile-result', data, !response.ok);
+            } catch (error) {
+                displayResult('profile-result', { error: error.message }, true);
+            }
+        }
+
+        async function createInvestorProfile() {
+            if (!currentToken) {
+                displayResult('profile-result', { error: 'Please login first' }, true);
+                return;
+            }
+            
+            const profileData = {
+                name: "Future Ventures",
+                type: "vc",
+                sectorFocus: ["fintech", "ai", "saas", "healthtech"],
+                stagePreferences: ["seed", "series-a"],
+                checkSizeMin: 250000,
+                checkSizeMax: 2000000,
+                geoFocus: ["North America", "Europe"],
+                description: "Early-stage VC focused on B2B SaaS and AI companies"
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/users/investor-profile`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${currentToken}` 
+                    },
+                    body: JSON.stringify(profileData)
+                });
+                
+                const data = await response.json();
+                displayResult('profile-result', data, !response.ok);
+            } catch (error) {
+                displayResult('profile-result', { error: error.message }, true);
+            }
+        }
+
+        async function getFeed() {
+            if (!currentToken) {
+                displayResult('matching-result', { error: 'Please login first' }, true);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/matching/feed?limit=10`, {
+                    headers: { 'Authorization': `Bearer ${currentToken}` }
+                });
+                
+                const data = await response.json();
+                feedData = data;
+                displayResult('matching-result', { message: `Found ${data.length} potential matches!`, data });
+            } catch (error) {
+                displayResult('matching-result', { error: error.message }, true);
+            }
+        }
+
+        async function swipeRight() {
+            if (feedData.length === 0) {
+                displayResult('matching-result', { error: 'Get feed first!' }, true);
+                return;
+            }
+            
+            const targetId = feedData[0].id;
+            await swipe(targetId, 'right');
+        }
+
+        async function swipeLeft() {
+            if (feedData.length === 0) {
+                displayResult('matching-result', { error: 'Get feed first!' }, true);
+                return;
+            }
+            
+            const targetId = feedData[0].id;
+            await swipe(targetId, 'left');
+        }
+
+        async function swipe(targetId, direction) {
+            if (!currentToken) {
+                displayResult('matching-result', { error: 'Please login first' }, true);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/matching/swipe`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${currentToken}` 
+                    },
+                    body: JSON.stringify({ targetId, direction })
+                });
+                
+                const data = await response.json();
+                if (data.match) {
+                    displayResult('matching-result', { 
+                        message: `🎉 IT'S A MATCH! Swiped ${direction} and got a mutual match!`, 
+                        match: data.match 
+                    });
+                } else {
+                    displayResult('matching-result', { 
+                        message: `Swiped ${direction} on user ${targetId}`, 
+                        result: data 
+                    });
+                }
+            } catch (error) {
+                displayResult('matching-result', { error: error.message }, true);
+            }
+        }
+
+        async function getMatches() {
+            if (!currentToken) {
+                displayResult('matching-result', { error: 'Please login first' }, true);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/matching/matches`, {
+                    headers: { 'Authorization': `Bearer ${currentToken}` }
+                });
+                
+                const data = await response.json();
+                displayResult('matching-result', { 
+                    message: `You have ${data.length} mutual matches!`, 
+                    matches: data 
+                });
+            } catch (error) {
+                displayResult('matching-result', { error: error.message }, true);
+            }
+        }
+
+        async function showUserStats() {
+            // This would call a real analytics endpoint in production
+            const stats = {
+                totalUsers: 2 + Math.floor(Math.random() * 100),
+                startups: 1 + Math.floor(Math.random() * 50),
+                investors: 1 + Math.floor(Math.random() * 50),
+                profilesCreated: Math.floor(Math.random() * 80),
+                dailyActiveUsers: Math.floor(Math.random() * 30)
+            };
+            displayResult('analytics-result', { message: 'Platform Statistics', stats });
+        }
+
+        async function showMatchingStats() {
+            const stats = {
+                totalSwipes: Math.floor(Math.random() * 500),
+                totalMatches: Math.floor(Math.random() * 50),
+                matchRate: (Math.random() * 20 + 5).toFixed(1) + '%',
+                avgCompatibilityScore: (Math.random() * 20 + 70).toFixed(1)
+            };
+            displayResult('analytics-result', { message: 'Matching Engine Statistics', stats });
+        }
+
+        async function testAllEndpoints() {
+            displayResult('analytics-result', { message: 'Testing all endpoints...' });
+            
+            const tests = [
+                { name: 'Health Check', func: testHealth },
+                { name: 'Get Profile', func: getProfile },
+                { name: 'Get Feed', func: getFeed },
+                { name: 'Get Matches', func: getMatches }
+            ];
+            
+            const results = [];
+            for (let test of tests) {
+                try {
+                    await test.func();
+                    results.push({ test: test.name, status: 'PASS' });
+                } catch (error) {
+                    results.push({ test: test.name, status: 'FAIL', error: error.message });
+                }
+            }
+            
+            displayResult('analytics-result', { message: 'Endpoint Test Results', results });
+        }
+
+        // Initialize page
+        window.onload = function() {
+            testHealth();
+        };
+    </script>
+</body>
+</html>

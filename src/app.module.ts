@@ -5,7 +5,7 @@ import { getDatabaseConfig } from '@/config/database.config';
 import { UsersModule } from '@/modules/users/users.module';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { MatchingModule } from '@/modules/matching/matching.module';
-import { MessagingModule } from '@/modules/messaging/messaging.module';
+// import { MessagingModule } from '@/modules/messaging/messaging.module';
 import { AiModule } from '@/modules/ai/ai.module';
 import { CommonModule } from '@/common/common.module';
 
@@ -24,7 +24,7 @@ import { CommonModule } from '@/common/common.module';
     UsersModule,
     AuthModule,
     MatchingModule,
-    MessagingModule,
+    // MessagingModule,
     AiModule,
   ],
   controllers: [],

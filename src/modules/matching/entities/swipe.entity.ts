@@ -23,8 +23,8 @@ export class Swipe {
   @Column('decimal', { precision: 5, scale: 2, nullable: true })
   scoreAtSwipe: number;
 
-  @Column('jsonb', { nullable: true })
-  metadata: Record<string, any>;
+  @Column('text', { nullable: true })
+  metadata: string;
 
   @CreateDateColumn()
   createdAt: Date;

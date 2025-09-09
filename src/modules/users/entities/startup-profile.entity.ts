@@ -24,8 +24,8 @@ export class StartupProfile {
   @Column('text', { nullable: true })
   description: string;
 
-  @Column('text', { array: true, default: '{}' })
-  sectors: string[];
+  @Column('text', { default: '[]' })
+  sectors: string;
 
   @Column({
     type: 'enum',
@@ -57,29 +57,29 @@ export class StartupProfile {
   @Column('integer', { nullable: true })
   runwayMonths: number;
 
-  @Column('jsonb', { nullable: true })
-  kpiSummary: Record<string, any>;
+  @Column('text', { nullable: true })
+  kpiSummary: string;
 
-  @Column('text', { array: true, default: '{}' })
-  locations: string[];
+  @Column('text', { default: '[]' })
+  locations: string;
 
   @Column({ nullable: true })
   pitchDeckUrl: string;
 
-  @Column('vector', { nullable: true })
-  pitchEmbedding: number[];
+  @Column('text', { nullable: true })
+  pitchEmbedding: string;
 
-  @Column('jsonb', { nullable: true })
-  founders: Record<string, any>[];
+  @Column('text', { nullable: true })
+  founders: string;
 
-  @Column('text', { array: true, default: '{}' })
-  valueAddNeeds: string[];
+  @Column('text', { default: '[]' })
+  valueAddNeeds: string;
 
-  @Column('text', { array: true, default: '{}' })
-  nonNegotiables: string[];
+  @Column('text', { default: '[]' })
+  nonNegotiables: string;
 
-  @Column('jsonb', { nullable: true })
-  references: Record<string, any>;
+  @Column('text', { nullable: true })
+  references: string;
 
   @CreateDateColumn()
   createdAt: Date;

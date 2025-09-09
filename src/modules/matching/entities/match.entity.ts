@@ -31,8 +31,8 @@ export class Match {
   })
   status: MatchStatus;
 
-  @Column('jsonb', { nullable: true })
-  metadata: Record<string, any>;
+  @Column('text', { nullable: true })
+  metadata: string;
 
   @CreateDateColumn()
   createdAt: Date;

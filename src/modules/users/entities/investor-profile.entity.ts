@@ -33,23 +33,23 @@ export class InvestorProfile {
   @Column('decimal', { precision: 15, scale: 2 })
   checkSizeMax: number;
 
-  @Column('enum', { enum: StartupStage, array: true, default: '{}' })
-  stagePreferences: StartupStage[];
+  @Column('text', { default: '[]' })
+  stagePreferences: string;
 
-  @Column('text', { array: true, default: '{}' })
-  sectorFocus: string[];
+  @Column('text', { default: '[]' })
+  sectorFocus: string;
 
-  @Column('text', { array: true, default: '{}' })
-  geoFocus: string[];
+  @Column('text', { default: '[]' })
+  geoFocus: string;
 
   @Column('text', { nullable: true })
   description: string;
 
-  @Column('jsonb', { nullable: true })
-  notableInvestments: Record<string, any>[];
+  @Column('text', { nullable: true })
+  notableInvestments: string;
 
-  @Column('jsonb', { nullable: true })
-  portfolioMetrics: Record<string, any>;
+  @Column('text', { nullable: true })
+  portfolioMetrics: string;
 
   @Column({ nullable: true })
   reserveStrategy: string;
@@ -57,20 +57,20 @@ export class InvestorProfile {
   @Column('integer', { nullable: true })
   avgTimeToCloseDays: number;
 
-  @Column('vector', { nullable: true })
-  investorEmbedding: number[];
+  @Column('text', { nullable: true })
+  investorEmbedding: string;
 
   @Column('decimal', { precision: 3, scale: 2, default: 1.0 })
   availabilityScore: number;
 
-  @Column('text', { array: true, default: '{}' })
-  legalConstraints: string[];
+  @Column('text', { default: '[]' })
+  legalConstraints: string;
 
   @Column({ default: false })
   willLead: boolean;
 
-  @Column('text', { array: true, default: '{}' })
-  valueAddOffered: string[];
+  @Column('text', { default: '[]' })
+  valueAddOffered: string;
 
   @CreateDateColumn()
   createdAt: Date;
