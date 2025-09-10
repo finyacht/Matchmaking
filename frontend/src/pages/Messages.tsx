@@ -61,7 +61,7 @@ const Messages = () => {
         {
           id: '1',
           senderId: 'other',
-          content: 'Hi! I'm interested in learning more about your startup.',
+          content: "Hi! I'm interested in learning more about your startup.",
           timestamp: '2024-09-10T09:30:00Z',
         },
         {
