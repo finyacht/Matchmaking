@@ -2,10 +2,14 @@
   "name": "matchmaking-platform",
   "version": "1.0.0",
   "description": "Investor-Startup Matchmaking Platform MVP",
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
+  },
   "main": "dist/main.js",
   "scripts": {
     "build": "npm run build:frontend && nest build",
-    "build:frontend": "cd frontend && npm install && npm run build",
+    "build:frontend": "cd frontend && npm install --legacy-peer-deps && npm run build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
