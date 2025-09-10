@@ -1,17 +1,17 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { useAuth } from './contexts/AuthContext.tsx';
-import Navbar from './components/Navbar.tsx';
-import ProtectedRoute from './components/ProtectedRoute.tsx';
-import Landing from './pages/Landing.tsx';
-import Login from './pages/Login.tsx';
-import Signup from './pages/Signup.tsx';
-import Dashboard from './pages/Dashboard.tsx';
-import Profile from './pages/Profile.tsx';
-import Feed from './pages/Feed.tsx';
-import Matches from './pages/Matches.tsx';
-import Messages from './pages/Messages.tsx';
+import { useAuth } from './contexts/AuthContext';
+import Navbar from './components/Navbar';
+import ProtectedRoute from './components/ProtectedRoute';
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+import Profile from './pages/Profile';
+import Feed from './pages/Feed';
+import Matches from './pages/Matches';
+import Messages from './pages/Messages';
 
 function App() {
   const { user } = useAuth();

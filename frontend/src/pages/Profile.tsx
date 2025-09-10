@@ -13,7 +13,7 @@ import {
   Stack,
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
-import { useAuth } from '../contexts/AuthContext.tsx';
+import { useAuth } from '../contexts/AuthContext';
 
 interface StartupProfileData {
   name: string;
