@@ -15,7 +15,7 @@ import {
   Message as MessageIcon,
   Person as PersonIcon,
 } from '@mui/icons-material';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext.tsx';
 
 const Dashboard = () => {
   const { user } = useAuth();

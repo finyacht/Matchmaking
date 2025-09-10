@@ -18,7 +18,7 @@ import {
   Search as SearchIcon,
   Menu as MenuIcon,
 } from '@mui/icons-material';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext.tsx';
 
 const Navbar = () => {
   const navigate = useNavigate();

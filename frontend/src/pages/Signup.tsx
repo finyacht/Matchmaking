@@ -16,7 +16,7 @@ import {
   Grid,
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext.tsx';
 
 interface SignupFormData {
   email: string;
