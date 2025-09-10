@@ -68,10 +68,7 @@ const Profile = () => {
   const { user } = useAuth();
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
-  const { register, handleSubmit, control, formState: { errors } } = 
-    user?.userType === 'startup' 
-      ? useForm<StartupProfileData>()
-      : useForm<InvestorProfileData>();
+  const { register, handleSubmit, control, formState: { errors } } = useForm<StartupProfileData | InvestorProfileData>();
 
   const onSubmit = async (data: StartupProfileData | InvestorProfileData) => {
     try {
@@ -112,7 +109,7 @@ const Profile = () => {
               <TextField
                 fullWidth
                 label="Name"
-                {...register('name', { required: 'Name is required' })}
+                {...register('name' as const, { required: 'Name is required' })}
                 error={!!errors.name}
                 helperText={errors.name?.message}
               />
@@ -124,7 +121,7 @@ const Profile = () => {
                 label="Description"
                 multiline
                 rows={4}
-                {...register('description', { required: 'Description is required' })}
+                {...register('description' as const, { required: 'Description is required' })}
                 error={!!errors.description}
                 helperText={errors.description?.message}
               />
@@ -137,7 +134,7 @@ const Profile = () => {
                     fullWidth
                     select
                     label="Stage"
-                    {...register('stage', { required: 'Stage is required' })}
+                    {...register('stage' as const, { required: 'Stage is required' })}
                     error={!!errors.stage}
                     helperText={errors.stage?.message}
                   >
@@ -180,7 +177,7 @@ const Profile = () => {
                     fullWidth
                     type="number"
                     label="Valuation ($)"
-                    {...register('valuation', { 
+                    {...register('valuation' as const, { 
                       required: 'Valuation is required',
                       min: { value: 0, message: 'Must be positive' }
                     })}
@@ -194,7 +191,7 @@ const Profile = () => {
                     fullWidth
                     type="number"
                     label="Annual Recurring Revenue ($)"
-                    {...register('arr', { 
+                    {...register('arr' as const, { 
                       required: 'ARR is required',
                       min: { value: 0, message: 'Must be positive' }
                     })}
@@ -210,7 +207,7 @@ const Profile = () => {
                     fullWidth
                     select
                     label="Investor Type"
-                    {...register('type', { required: 'Type is required' })}
+                    {...register('type' as const, { required: 'Type is required' })}
                     error={!!errors.type}
                     helperText={errors.type?.message}
                   >
@@ -253,7 +250,7 @@ const Profile = () => {
                     fullWidth
                     type="number"
                     label="Minimum Check Size ($)"
-                    {...register('checkSizeMin', { 
+                    {...register('checkSizeMin' as const, { 
                       required: 'Minimum check size is required',
                       min: { value: 0, message: 'Must be positive' }
                     })}
@@ -267,7 +264,7 @@ const Profile = () => {
                     fullWidth
                     type="number"
                     label="Maximum Check Size ($)"
-                    {...register('checkSizeMax', { 
+                    {...register('checkSizeMax' as const, { 
                       required: 'Maximum check size is required',
                       min: { value: 0, message: 'Must be positive' }
                     })}
