@@ -1,7 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import toast from 'react-hot-toast';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface User {
   id: string;
@@ -14,87 +11,101 @@ interface User {
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
-  signup: (data: any) => Promise<void>;
-  logout: () => void;
-  loading: boolean;
+  signup: (email: string, password: string, userType: 'startup' | 'investor', firstName: string, lastName: string) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api/v1';
-
-// Configure axios defaults
-axios.defaults.baseURL = API_BASE_URL;
-
-// Add request interceptor to include auth token
-axios.interceptors.request.use((config) => {
-  const token = Cookies.get('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
   }
-  return config;
-});
+  return context;
+};
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = Cookies.get('token');
+    // Check for stored auth token and validate it
+    const token = localStorage.getItem('authToken');
     if (token) {
-      // Verify token and get user profile
-      fetchUserProfile();
-    } else {
-      setLoading(false);
+      // TODO: Validate token with backend
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
     }
   }, []);
 
-  const fetchUserProfile = async () => {
-    try {
-      const response = await axios.get('/users/profile');
-      setUser(response.data);
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-      Cookies.remove('token');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post('/auth/login', { email, password });
-      const { accessToken, user: userData } = response.data;
-      
-      Cookies.set('token', accessToken, { expires: 7 });
-      setUser(userData);
-      toast.success('Login successful!');
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Login failed';
-      toast.error(message);
+      // TODO: Replace with actual API call
+      const response = await fetch('/api/v1/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
+      localStorage.setItem('authToken', data.accessToken);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      setUser(data.user);
+    } catch (error) {
+      console.error('Login error:', error);
       throw error;
     }
   };
 
-  const signup = async (data: any) => {
+  const signup = async (
+    email: string,
+    password: string,
+    userType: 'startup' | 'investor',
+    firstName: string,
+    lastName: string
+  ) => {
     try {
-      const response = await axios.post('/auth/signup', data);
-      const { accessToken, user: userData } = response.data;
-      
-      Cookies.set('token', accessToken, { expires: 7 });
-      setUser(userData);
-      toast.success('Account created successfully!');
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Signup failed';
-      toast.error(message);
+      // TODO: Replace with actual API call
+      const response = await fetch('/api/v1/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          userType,
+          firstName,
+          lastName,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Signup failed');
+      }
+
+      const data = await response.json();
+      localStorage.setItem('authToken', data.accessToken);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      setUser(data.user);
+    } catch (error) {
+      console.error('Signup error:', error);
       throw error;
     }
   };
 
-  const logout = () => {
-    Cookies.remove('token');
+  const logout = async () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
     setUser(null);
-    toast.success('Logged out successfully');
   };
 
   const value = {
@@ -102,16 +113,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     login,
     signup,
     logout,
-    loading,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
