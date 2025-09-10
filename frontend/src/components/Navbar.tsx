@@ -41,19 +41,40 @@ const Navbar = () => {
   return (
     <AppBar position="static" color="default" elevation={1}>
       <Toolbar>
-        <Typography
-          variant="h6"
+        <Box 
           component={RouterLink}
           to="/dashboard"
-          sx={{
+          sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            textDecoration: 'none', 
             flexGrow: 1,
-            textDecoration: 'none',
-            color: 'inherit',
-            fontWeight: 700,
+            gap: 1,
           }}
         >
-          Matchmaking
-        </Typography>
+          <Box
+            component="img"
+            src="/fuel-fund-logo.svg"
+            alt="Fuel Fund"
+            sx={{
+              width: 40,
+              height: 40,
+            }}
+          />
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 800,
+              background: 'linear-gradient(135deg, #1976d2, #e53935)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              fontSize: '1.5rem',
+            }}
+          >
+            FUEL FUND
+          </Typography>
+        </Box>
 
         {/* Desktop Navigation */}
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
