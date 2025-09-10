@@ -68,9 +68,9 @@ const Profile = () => {
   const { user } = useAuth();
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
-  const { register, handleSubmit, control, formState: { errors } } = useForm<StartupProfileData | InvestorProfileData>();
+  const { register, handleSubmit, control, formState: { errors } } = useForm<StartupProfileData & InvestorProfileData>();
 
-  const onSubmit = async (data: StartupProfileData | InvestorProfileData) => {
+  const onSubmit = async (data: StartupProfileData & InvestorProfileData) => {
     try {
       setError('');
       setSuccess('');
