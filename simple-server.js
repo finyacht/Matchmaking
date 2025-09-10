@@ -1,10 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the frontend build directory
+app.use(express.static(path.join(__dirname, 'frontend/build')));
+
+// Handle React routing, return all requests to React app
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+});
 
 // In-memory storage for demo
 let users = [];

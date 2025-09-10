@@ -1,1 +1,1 @@
-web: node simple-server.js
+web: npm run build:frontend && node simple-server.js
