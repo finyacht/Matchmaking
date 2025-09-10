@@ -9,7 +9,7 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "npm run build:frontend && nest build",
-    "build:frontend": "cd frontend && npm install --legacy-peer-deps && npm run build && cp -r build/* ../public/",
+    "build:frontend": "cd frontend && npm install --legacy-peer-deps && npm run build && xcopy /E /I /Y build\\* ..\\public\\",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
