@@ -7,12 +7,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the frontend build directory
-app.use(express.static(path.join(__dirname, 'frontend/build')));
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Handle React routing, return all requests to React app
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // In-memory storage for demo
