@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuel Fund - Admin Dashboard</title>
+    <title>Fund Fuel - Admin Dashboard</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -151,7 +151,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Fuel Fund Admin Dashboard</h1>
+        <h1>🚀 Fund Fuel Admin Dashboard</h1>
         
         <!-- Real-time Stats -->
         <div class="stats-grid" id="statsGrid">
@@ -373,7 +373,7 @@ Last Updated: ${new Date().toLocaleString()}`;
             result.className = 'result';
             result.textContent = `System Information:
             
-Platform: Fuel Fund Matchmaking
+Platform: Fund Fuel Matchmaking
 Environment: Production (Heroku)
 Database: SQLite (transitioning to PostgreSQL)
 Backend: NestJS + TypeScript
@@ -443,7 +443,7 @@ Features Enabled:
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "fuel_fund_users.csv");
+            link.setAttribute("download", "fund_fuel_users.csv");
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);

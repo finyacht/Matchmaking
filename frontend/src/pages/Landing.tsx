@@ -54,7 +54,7 @@ const Landing = () => {
                   <Box
                     component="img"
                     src="/fuel-fund-logo.svg"
-                    alt="Fuel Fund Logo"
+                      alt="Fund Fuel Logo"
                     sx={{
                       width: 80,
                       height: 80,
@@ -75,7 +75,7 @@ const Landing = () => {
                       textShadow: '0 2px 4px rgba(0,0,0,0.1)',
                     }}
                   >
-                    FUEL FUND
+                    FUND FUEL
                   </Typography>
                 </Box>
 

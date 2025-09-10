@@ -55,7 +55,7 @@ const Navbar = () => {
           <Box
             component="img"
             src="/fuel-fund-logo.svg"
-            alt="Fuel Fund"
+            alt="Fund Fuel"
             sx={{
               width: 40,
               height: 40,
@@ -72,7 +72,7 @@ const Navbar = () => {
               fontSize: '1.5rem',
             }}
           >
-            FUEL FUND
+            FUND FUEL
           </Typography>
         </Box>
 

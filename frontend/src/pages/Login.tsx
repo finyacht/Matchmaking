@@ -66,7 +66,7 @@ const Login = () => {
             <Box
               component="img"
               src="/fuel-fund-logo.svg"
-              alt="Fuel Fund Logo"
+              alt="Fund Fuel Logo"
               sx={{
                 width: 60,
                 height: 60,
@@ -82,7 +82,7 @@ const Login = () => {
                 backgroundClip: 'text',
               }}
             >
-              FUEL FUND
+              FUND FUEL
             </Typography>
           </Box>
           <Typography
