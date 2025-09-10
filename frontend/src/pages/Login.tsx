@@ -24,7 +24,7 @@ const Login = () => {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<LoginFormData>({
     defaultValues: {
       email: 'startup@demo.com',
-      password: 'demo123'
+      password: 'password'
     }
   });
   const { login } = useAuth();
@@ -44,10 +44,10 @@ const Login = () => {
   const handleDemoLogin = (userType: 'startup' | 'investor') => {
     if (userType === 'startup') {
       setValue('email', 'startup@demo.com');
-      setValue('password', 'demo123');
+      setValue('password', 'password');
     } else {
       setValue('email', 'investor@demo.com');
-      setValue('password', 'demo123');
+      setValue('password', 'password');
     }
   };
 
